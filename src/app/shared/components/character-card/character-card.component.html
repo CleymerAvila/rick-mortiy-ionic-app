@@ -1,0 +1,25 @@
+<ion-card (click)="onSelected()" class="ion-no-margin ion-no-padding">
+  <img [alt]="title" [src]="image" class="full-width-image"/>
+  <ion-card-header>
+    <ion-card-title>{{ title}}</ion-card-title>
+    <ion-card-subtitle>{{ subtitle }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    @if(isDetail){
+      <ion-row class="ion-align-content-between">
+        <ion-col>
+          <ion-label>Status: {{ status }}</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label>Species: {{ species }}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label>Origin: {{ origin?.name }}</ion-label>
+        </ion-col>
+      </ion-row>
+    }
+  </ion-card-content>
+</ion-card>

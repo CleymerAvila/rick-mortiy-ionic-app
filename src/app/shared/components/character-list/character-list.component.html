@@ -1,0 +1,22 @@
+<ion-list>
+  <ion-row>
+    @for (character of characterList; track character.id) {
+        <ion-col
+          size="6" sizeMd="4" sizeLg="2"
+          >
+          <app-character-card
+            class="ion-no-margin"
+            (touchedCharacter)="characterSelected($event)"
+            [characterId]="character.id"
+            [title]="character.name"
+            [origin]="character?.origin"
+            [subtitle]="character.gender"
+            [image]="character.image"
+          />
+        </ion-col>
+    }
+  </ion-row>
+</ion-list>
+<ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll>

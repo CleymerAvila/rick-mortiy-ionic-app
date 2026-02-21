@@ -1,0 +1,20 @@
+<app-header title="Ricky and Morty App"/>
+<ion-content [fullscreen]="true">
+  @defer (on idle) {
+    <ion-grid [fixed]="true">
+      <app-character-list
+        [characterList]="characterResponse!.results"
+      />
+    </ion-grid>
+  } @placeholder {
+    <ion-grid>
+      <ion-label>
+        loading...
+      </ion-label>
+    </ion-grid>
+  } @loading (){
+    |||||||||||
+  } @error {
+    <ion-label>Failed to load characters</ion-label>
+  }
+</ion-content>

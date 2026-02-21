@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Character</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @defer(when !isLoading){
+  <app-character-card
+    [title]="characterInfo?.name"
+    [subtitle]="characterInfo?.gender"
+    [image]="characterInfo?.image"
+    [status]="characterInfo?.status"
+    [species]="characterInfo?.species"
+    [origin]="characterInfo?.origin"
+    [isDetail]="true"
+  />
+  } @placeholder {
+  <ion-row class="ion-align-items-center">
+    <ion-col>
+      <ion-label> Loading data </ion-label>
+    </ion-col>
+  </ion-row>
+  }
+  <br />
+  <ion-row>
+    <ion-col>
+      <ion-label> {{ characterInfo?.location?.name}} </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-label> {{ characterInfo?.location?.url}} </ion-label>
+    </ion-col>
+  </ion-row>
+  <br />
+
+  <ion-list>
+    <ion-row>
+        @for(item of '112910293023' ; track $index){
+          <ion-item>
+            <ion-col>
+                <ion-avatar>
+                  <img
+                    alt="Silhouette of a person's head"
+                    src="https://pbs.twimg.com/profile_images/1980429136125468672/KBuZEMwm_400x400.jpg"
+                  />
+                </ion-avatar>
+                <ion-label>Chip Avatar</ion-label>
+              </ion-col>
+          </ion-item>
+        }
+    </ion-row>
+  </ion-list>
+</ion-content>

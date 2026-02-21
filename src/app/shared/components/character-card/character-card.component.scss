@@ -1,0 +1,6 @@
+.full-width-img {
+  width: 100%;
+  height: 200px; /* Ajusta la altura deseada */
+  object-fit: cover; /* Clave para que la imagen cubra sin deformarse */
+  display: block;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICharacterResponse } from '../../interfaces/ICharacterResponse';
 import { HttpService } from '../../shared/services/http-service';
+import { ProxyProvider } from 'src/app/shared/providers/proxy-provider';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +11,20 @@ import { HttpService } from '../../shared/services/http-service';
 })
 export class HomePage implements OnInit {
   characterResponse!: ICharacterResponse;
+  totalPages: number = 0;
+  currentPage: number = 1;
 
-  constructor(private httpService : HttpService){
-    this.httpService.getCharacters<ICharacterResponse>(1).subscribe({
-      next: (data) => {
-        this.characterResponse = data;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
+  constructor(private proxyProvider: ProxyProvider){
+
   }
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    try {
+      const data = await this.proxyProvider.loadInitialData();
+      this.characterResponse= data;
+      this.totalPages = data.results.length;
+    } catch (error) {
+      console.error('Error en ngOnInit: ', error)
+    }
+  }
 }

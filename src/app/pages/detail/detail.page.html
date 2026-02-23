@@ -23,31 +23,45 @@
   </ion-row>
   }
   <br />
-  <ion-row>
-    <ion-col>
-      <ion-label> {{ characterInfo?.location?.name}} </ion-label>
-    </ion-col>
-    <ion-col>
-      <ion-label> {{ characterInfo?.location?.url}} </ion-label>
-    </ion-col>
-  </ion-row>
-  <br />
 
-  <ion-list>
+  <ion-grid>
     <ion-row>
-        @for(item of '112910293023' ; track $index){
-          <ion-item>
-            <ion-col>
-                <ion-avatar>
-                  <img
-                    alt="Silhouette of a person's head"
-                    src="https://pbs.twimg.com/profile_images/1980429136125468672/KBuZEMwm_400x400.jpg"
-                  />
-                </ion-avatar>
-                <ion-label>Chip Avatar</ion-label>
-              </ion-col>
-          </ion-item>
-        }
+      <ion-col>
+        <ion-title> Location: </ion-title>
+      </ion-col>
+      <ion-col>
+        <strong>
+          <ion-label> {{ locationInfo?.name}} </ion-label>
+        </strong>
+      </ion-col>
     </ion-row>
+  </ion-grid>
+  <br />
+  <!-- <app-character-list [characterList]="residents">
+  </app-character-list> -->
+  <ion-list>
+    <ion-title>
+        <h2>Residents</h2>
+    </ion-title>
+    <!-- <ion-title>
+      <ion-label> Residents </ion-label>
+    </ion-title> -->
+    <br />
+      @for(resident of residents ; track $index){
+        <ion-item>
+            <ion-avatar slot="start">
+              <img
+              [alt]="resident.name"
+              [src]="resident.image"
+              />
+            </ion-avatar>
+            <ion-label><h3>{{ resident.name }}</h3></ion-label>
+            <ion-label>
+              <p>
+                {{ resident.gender}}
+              </p>
+            </ion-label>
+        </ion-item>
+      }
   </ion-list>
 </ion-content>

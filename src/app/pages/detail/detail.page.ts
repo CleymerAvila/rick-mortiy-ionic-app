@@ -1,7 +1,9 @@
+import { ProxyProvider } from './../../shared/providers/proxy-provider';
 import { ICharacterInfo, ILocationInfo } from 'src/app/interfaces/ICharacterResponse';
 import { HttpService } from './../../shared/services/http-service';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -12,22 +14,27 @@ import { ActivatedRoute } from '@angular/router';
 export class DetailPage implements OnInit {
   characterInfo: ICharacterInfo | null = null;
   locationInfo: ILocationInfo | null = null;
+  residents: ICharacterInfo[] = [];
   route = inject(ActivatedRoute);
   isLoading = false;
 
-  constructor(private httpService: HttpService) { }
+  constructor(private proxyProvider: ProxyProvider) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isLoading = true;
     const id = this.route.snapshot.params['id'];
-    this.httpService.getCharacterById<ICharacterInfo>(Number(id)).subscribe({
-      next: (data) => {
-        this.characterInfo = data;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.log(error)
-      }
-    })
+
+    const character = await this.proxyProvider.getCharacter(id);
+    const location = await this.proxyProvider.getLocation(character.location.url);
+
+    location.residents.forEach(async res => {
+      const resident = await this.proxyProvider.getCharacterByUrl(res);
+      this.residents.push(resident);
+    });
+
+    this.characterInfo = character;
+    this.locationInfo = location;
+    this.isLoading = false;
   }
+
 }

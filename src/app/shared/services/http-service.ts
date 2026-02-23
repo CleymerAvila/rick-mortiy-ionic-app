@@ -1,4 +1,4 @@
-import { ICharacterResponse, ICharacterInfo } from 'src/app/interfaces/ICharacterResponse';
+import { ILocationInfo } from 'src/app/interfaces/ICharacterResponse';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -21,7 +21,17 @@ export class HttpService {
   getCharacterById<ICharacterInfo>(characterId: number): Observable<ICharacterInfo> {
     return this.httpClient.get<ICharacterInfo>(`${this.BASE_URL}character/${characterId}`);
   }
+
+  getLocationByUrl<ILocationInfo>(locationUrl: string): Observable<ILocationInfo> {
+    return this.httpClient.get<ILocationInfo>(locationUrl);
+  }
+
+  getCharacterByUrl<ICharacterInfo>(url: string): Observable<ICharacterInfo> {
+    return  this.httpClient.get<ICharacterInfo>(url);
+  }
   get<T>(url: string): Observable<T> {
     return this.httpClient.get<T>(url);
   }
+
+
 }

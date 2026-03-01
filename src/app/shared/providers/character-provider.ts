@@ -28,4 +28,8 @@ export class CharacterProvider {
     return firstValueFrom(this.httpService.getCharacterByUrl(url));
   }
 
+  getResidents(characterIds: number[]): Promise<ICharacterInfo[]> {
+    return firstValueFrom(this.httpService.getResidentsByIds(characterIds));
+  }
+
 }

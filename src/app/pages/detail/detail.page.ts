@@ -1,9 +1,7 @@
 import { ProxyProvider } from './../../shared/providers/proxy-provider';
 import { ICharacterInfo, ILocationInfo } from 'src/app/interfaces/ICharacterResponse';
-import { HttpService } from './../../shared/services/http-service';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -26,11 +24,8 @@ export class DetailPage implements OnInit {
 
     const character = await this.proxyProvider.getCharacter(id);
     const location = await this.proxyProvider.getLocation(character.location.url);
-
-    location.residents.forEach(async res => {
-      const resident = await this.proxyProvider.getCharacterByUrl(res);
-      this.residents.push(resident);
-    });
+    const residentIds = location.residents.map(url => Number(url.split('/').pop()))
+    this.residents = await this.proxyProvider.getResidents(residentIds);
 
     this.characterInfo = character;
     this.locationInfo = location;

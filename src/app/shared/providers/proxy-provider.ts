@@ -74,6 +74,28 @@ export class ProxyProvider {
       }
     }
 
+    async getResidents(residentIds: number[]): Promise<ICharacterInfo[]> {
+      try {
+        // Filtrar los que no estan en cache
+        const idsToFetch = residentIds.filter(
+          id => !this.cache.characters.has(id)
+        );
+
+        if(idsToFetch.length > 0){
+          const newResidents = await this.characterProvider.getResidents(idsToFetch);
+          // Guardar en cache
+          newResidents.forEach((resident) => this.cache.characters.set(resident.id, resident));
+        }
+
+        // retornar todos desde el cache respectando el orden original
+        const residents = residentIds.map(id => this.cache.characters.get(id)!);
+        return residents;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    }
+
     async getCharacterByUrl(url: string): Promise<ICharacterInfo> {
       let parts = url.split('/');
       let lastNumberString = parts.pop() || parts.pop();

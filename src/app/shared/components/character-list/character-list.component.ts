@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ICharacterInfo, ICharacterResponse } from 'src/app/interfaces/ICharacterResponse';
+import { ICharacterInfo } from 'src/app/interfaces/ICharacterResponse';
 import { ProxyProvider } from '../../providers/proxy-provider';
 
 @Component({
@@ -18,15 +18,6 @@ export class CharacterListComponent  implements OnInit {
   constructor(private proxyProvider: ProxyProvider) { }
 
   async ngOnInit(): Promise<void> {
-    // this.httpService.getCharacters<ICharacterResponse>(this.page).subscribe({
-    //   next: (data) => {
-    //     this.characterList = data.results;
-    //   },
-    //   error: (error) => {
-    //     console.log(error)
-    //   }
-    // })
-
     const response = await this.proxyProvider.getPage(this.currentPage);
     this.characterList = response.results;
     this.totalPages = response.results.length;
@@ -51,17 +42,5 @@ export class CharacterListComponent  implements OnInit {
     } finally {
       event.target.complete();
     }
-    // this.httpService.getCharacters<ICharacterResponse>(this.currentPage).subscribe({
-    //   next: (data) => {
-    //     this.characterList = [...this.characterList, ...data.results]
-    //     console.log('CharacterList', this.characterList)
-    //   },
-    //   error: (error) => {
-    //     console.log(error)
-    //   }
-    // })
-    setTimeout(() => {
-      event.target.complete();
-    }, 1000);
   }
 }

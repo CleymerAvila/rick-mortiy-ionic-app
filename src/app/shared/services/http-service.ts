@@ -1,4 +1,3 @@
-import { ILocationInfo } from 'src/app/interfaces/ICharacterResponse';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -33,5 +32,8 @@ export class HttpService {
     return this.httpClient.get<T>(url);
   }
 
+  getResidentsByIds<ICharacterInfo>(characterIds: number[]): Observable<ICharacterInfo[]> {
+    return this.httpClient.get<ICharacterInfo[]>(`${this.BASE_URL}character/${characterIds}`);
+  }
 
 }
